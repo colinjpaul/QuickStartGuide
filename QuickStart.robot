@@ -2,6 +2,9 @@
 Library           OperatingSystem
 Library           lib/LoginLibrary.py
 
+Suite Setup       Clear Login Database
+Test Teardown     Clear Login Database
+
 *** Variables ***
     ${USERNAME}               janedoe
     ${PASSWORD}               J4n3D0e
@@ -16,8 +19,8 @@ Clear login database
 
 Create valid user
     [Arguments]    ${username}    ${password}
-     Create user    ${username}    ${password}
-     Status should be    SUCCESS
+    Create user    ${username}    ${password}
+    Status should be    SUCCESS
 
 Creating user with invalid password should fail
     [Arguments]    ${password}    ${error}
@@ -54,12 +57,11 @@ User can create an account and log in
     [Documentation]         This test creates a user and verifies logon
     ...
     [Tags]                  hello
+    Create Valid User    fred    P4ssw0rd
+    Attempt to Login with Credentials    fred    P4ssw0rd
+    Status Should Be    Logged In
 
-        Create Valid User    fred    P4ssw0rd
-        Attempt to Login with Credentials    fred    P4ssw0rd
-        Status Should Be    Logged In
-
-User cannot log in with bad password
-        Create Valid User    betty    P4ssw0rd
-        Attempt to Login with Credentials    betty    wrong
-        Status Should Be    Access Denied
+#User cannot log in with bad password
+#    Create Valid User    betty    P4ssw0rd
+#    Attempt to Login with Credentials    betty    wrong
+#    Status Should Be    Access Denied
